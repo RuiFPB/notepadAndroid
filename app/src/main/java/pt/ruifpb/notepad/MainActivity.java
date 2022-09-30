@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_note_menu, menu);
+        menuInflater.inflate(R.menu.menu_items, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -42,6 +43,22 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), NoteEditorActivity.class);
             startActivity(intent);
             return true;
+        }
+
+        if (item.getItemId() == R.id.about) {
+            // Create message box
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("About this app")
+                    .setIcon(R.mipmap.ic_launcher_round)
+                    .setMessage(String.format("Developed by RuiFPB%nVersion %s%nBuild: %s", BuildConfig.VERSION_NAME, BuildConfig.BUILD_TYPE))
+                    .setPositiveButton("Close", null)
+                    .setNeutralButton("Open Github", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/RuiFPB/notepadAndroid")));
+                        }
+                    }).show();
+
         }
 
         return false;
